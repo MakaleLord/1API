@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title>ISS: Live</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Big+Shoulders+Display|Roboto:400,400i&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1>International Space Station: Live</h1>
+    <div class="location-info">
+      <div class="animation">
+        <img id="earth" src="earth.png">
+        <div class="iss">
+          <img id="satellite" src="satellite.png">
+        </div>
+      </div>
+      <div class="location-text">
+        <p>ISS Location</p>
+        <p>Latitude:</p>
+        <span id="lat-value">
+        </span>
+        <p>Longitude:</p>
+        <span id="long-value">
+          </span>
+    </div>
+      
+    </div>
+    
+    <div class="iss-info">
+      <h3> ISS is
+        <span id="distance"></span>
+        kilometers above us.</h3>
+      <div class="info">
+    </div>
+      
+    </div>
+    
+    <script>
+      var locationAPI = "https://api.wheretheiss.at/v1/satellites/25544";
+      
+      function sendRequest() {
+      $.ajax({
+        url: locationAPI,
+        success: updateLocation
+      });
+      }
+      setInterval(sendRequest, 1000);
+      
+      
+      function updateLocation(response) {
+        console.log(response);
+        var latitude = response.latitude;
+        var longitude = response.longitude;
+        $("#lat-value").text(latitude);
+        $("#long-value").text(longitude);
+        $("#distance").text(response.altitude);
+        $(".info").html("");
+        $(".info").append("<p>Velocity:" + 
+                             response.velocity +
+                             "</p>");
+        $(".info").append("<p>Visibility:" + 
+                             response.visibility +
+                             "</p>");
+        $(".info").append("<p>Footprint:" + 
+                             response.footprint +
+                             "</p>");
+        $(".info").append("<p>Timestamp:" + 
+                             response.timestamp +
+                             "</p>");
+      }
+      
+      
+    </script>
+  </body>
+</html>
+<script type="application/javascript" src="/share.js"></script>
